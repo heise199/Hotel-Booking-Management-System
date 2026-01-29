@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理分析端 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 管理分析系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="bi bi-arrow-left"></i> 返回首页
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 顶部间距 -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 页面标题 -->
+    <div class="container mt-4 mb-4">
+        <h1 class="mb-0" style="font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;">
+            <i class="bi bi-bar-chart"></i> 数据看板
+        </h1>
+        <p class="text-muted mt-2" style="opacity: 0.7;">实时查看经营数据和会员信息</p>
+    </div>
+
+    <div class="container mb-5">
+        <!-- 标签页导航 -->
+        <ul class="nav nav-pills mb-4" id="analytics-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="dashboard-tab" data-bs-toggle="pill" data-bs-target="#dashboard" type="button" role="tab">
+                    <i class="bi bi-speedometer2"></i> 经营数据
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="members-tab" data-bs-toggle="pill" data-bs-target="#members" type="button" role="tab">
+                    <i class="bi bi-people"></i> 会员管理
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="campaigns-tab" data-bs-toggle="pill" data-bs-target="#campaigns" type="button" role="tab">
+                    <i class="bi bi-megaphone"></i> 营销活动
+                </button>
+            </li>
+        </ul>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content" id="analytics-tab-content">
+            <!-- 经营数据 -->
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                <!-- 统计卡片 -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-label">本周入住率</div>
+                            <div class="stat-value">78%</div>
+                            <div class="stat-desc">较上周 +5%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-label">本月营收</div>
+                            <div class="stat-value">¥128K</div>
+                            <div class="stat-desc">较上月 +12%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-label">总预订数</div>
+                            <div class="stat-value">342</div>
+                            <div class="stat-desc">本月累计</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-label">平均评分</div>
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-desc">共 156 条评价</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表容器 -->
+                <div class="chart-container">
+                    <div class="chart-title">预订趋势</div>
+                    <div id="trend-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+
+            <!-- 会员管理 -->
+            <div class="tab-pane fade" id="members" role="tabpanel">
+                <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">会员列表</h5>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/64" alt="会员头像" class="member-avatar">
+                    <div class="member-info">
+                        <div class="member-name">张三</div>
+                        <div class="member-level">
+                            <i class="bi bi-star-fill"></i> 钻石会员
+                        </div>
+                    </div>
+                    <div class="member-stats">
+                        <div class="member-spend">¥12,580</div>
+                        <div class="member-bookings">共 8 次预订</div>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/64" alt="会员头像" class="member-avatar">
+                    <div class="member-info">
+                        <div class="member-name">李四</div>
+                        <div class="member-level">
+                            <i class="bi bi-star"></i> 黄金会员
+                        </div>
+                    </div>
+                    <div class="member-stats">
+                        <div class="member-spend">¥8,920</div>
+                        <div class="member-bookings">共 5 次预订</div>
+                    </div>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/64" alt="会员头像" class="member-avatar">
+                    <div class="member-info">
+                        <div class="member-name">王五</div>
+                        <div class="member-level">
+                            <i class="bi bi-star"></i> 普通会员
+                        </div>
+                    </div>
+                    <div class="member-stats">
+                        <div class="member-spend">¥3,450</div>
+                        <div class="member-bookings">共 2 次预订</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 营销活动 -->
+            <div class="tab-pane fade" id="campaigns" role="tabpanel">
+                <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">营销活动</h5>
+                <div class="campaign-card">
+                    <img src="https://via.placeholder.com/400x240" alt="活动海报" class="campaign-image">
+                    <div class="campaign-body">
+                        <div class="campaign-title">会员专享｜住 3 送 1</div>
+                        <div class="campaign-desc">钻石会员专享优惠，连续入住3晚即可免费获得1晚住宿，限时活动，先到先得！</div>
+                        <button class="campaign-share-btn">
+                            <i class="bi bi-share"></i> 立即推广
+                        </button>
+                    </div>
+                </div>
+                <div class="campaign-card">
+                    <img src="https://via.placeholder.com/400x240" alt="活动海报" class="campaign-image">
+                    <div class="campaign-body">
+                        <div class="campaign-title">新用户首单立减 100 元</div>
+                        <div class="campaign-desc">新用户注册并完成首次预订，即可享受100元立减优惠，优惠码：NEW100</div>
+                        <button class="campaign-share-btn">
+                            <i class="bi bi-share"></i> 立即推广
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 初始化图表（极简线性图表）
+        const trendChart = echarts.init(document.getElementById('trend-chart'));
+        const option = {
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                axisLine: {
+                    lineStyle: {
+                        color: 'var(--neutral-gray)'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: 'var(--neutral-gray)'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: 'var(--neutral-gray)',
+                        opacity: 0.3
+                    }
+                }
+            },
+            series: [{
+                data: [12, 19, 15, 22, 18, 25, 20],
+                type: 'line',
+                smooth: true,
+                lineStyle: {
+                    width: 2,
+                    color: 'var(--primary-warm)'
+                },
+                itemStyle: {
+                    color: 'var(--primary-warm)'
+                },
+                areaStyle: {
+                    color: {
+                        type: 'linear',
+                        x: 0,
+                        y: 0,
+                        x2: 0,
+                        y2: 1,
+                        colorStops: [{
+                            offset: 0,
+                            color: 'rgba(201, 168, 143, 0.2)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(201, 168, 143, 0)'
+                        }]
+                    }
+                }
+            }]
+        };
+        trendChart.setOption(option);
+    </script>
+</body>
+</html>

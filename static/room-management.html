@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客房管理端 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 客房管理系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="bi bi-arrow-left"></i> 返回首页
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 顶部间距 -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 页面标题 -->
+    <div class="container mt-4 mb-4">
+        <h1 class="mb-0" style="font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;">
+            <i class="bi bi-door-open"></i> 房态看板
+        </h1>
+        <p class="text-muted mt-2" style="opacity: 0.7;">实时查看和管理房间状态</p>
+    </div>
+
+    <div class="container mb-5">
+        <!-- 标签页导航 -->
+        <ul class="nav nav-pills mb-4" id="room-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="status-tab" data-bs-toggle="pill" data-bs-target="#status" type="button" role="tab">
+                    <i class="bi bi-grid"></i> 房态看板
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cleaning-tab" data-bs-toggle="pill" data-bs-target="#cleaning" type="button" role="tab">
+                    <i class="bi bi-broom"></i> 清洁任务
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="maintenance-tab" data-bs-toggle="pill" data-bs-target="#maintenance" type="button" role="tab">
+                    <i class="bi bi-tools"></i> 报修处理
+                </button>
+            </li>
+        </ul>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content" id="room-tab-content">
+            <!-- 房态看板 -->
+            <div class="tab-pane fade show active" id="status" role="tabpanel">
+                <div class="room-status-board">
+                    <!-- 空闲房间 -->
+                    <div class="room-status-card available">
+                        <div class="room-number">201</div>
+                        <span class="room-status-badge available">空闲</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">豪华大床房</div>
+                    </div>
+                    <!-- 已预订房间 -->
+                    <div class="room-status-card booked">
+                        <div class="room-number">202</div>
+                        <span class="room-status-badge booked">已预订</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">标准双床房</div>
+                        <div class="mt-1" style="font-size: 0.8rem; opacity: 0.5;">张三 · 今日入住</div>
+                    </div>
+                    <!-- 待清洁房间 -->
+                    <div class="room-status-card cleaning">
+                        <div class="room-number">203</div>
+                        <span class="room-status-badge cleaning">待清洁</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">行政套房</div>
+                    </div>
+                    <!-- 维修中房间 -->
+                    <div class="room-status-card maintenance">
+                        <div class="room-number">204</div>
+                        <span class="room-status-badge maintenance">维修中</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">豪华大床房</div>
+                    </div>
+                    <!-- 更多房间... -->
+                    <div class="room-status-card available">
+                        <div class="room-number">205</div>
+                        <span class="room-status-badge available">空闲</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">标准双床房</div>
+                    </div>
+                    <div class="room-status-card booked">
+                        <div class="room-number">206</div>
+                        <span class="room-status-badge booked">已预订</span>
+                        <div class="mt-2" style="font-size: 0.85rem; opacity: 0.6;">豪华大床房</div>
+                        <div class="mt-1" style="font-size: 0.8rem; opacity: 0.5;">李四 · 明日入住</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 清洁任务 -->
+            <div class="tab-pane fade" id="cleaning" role="tabpanel">
+                <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">清洁任务列表</h5>
+                <div class="cleaning-task-card">
+                    <div class="cleaning-task-checkbox">
+                        <i class="bi bi-check" style="font-size: 0.875rem;"></i>
+                    </div>
+                    <div class="cleaning-task-info">
+                        <div class="cleaning-task-room">房间 201 · 豪华大床房</div>
+                        <div class="cleaning-task-staff">清洁人员：王五</div>
+                        <div class="cleaning-task-time">完成时间：14:00</div>
+                    </div>
+                </div>
+                <div class="cleaning-task-card">
+                    <div class="cleaning-task-checkbox checked">
+                        <i class="bi bi-check" style="font-size: 0.875rem; color: var(--neutral-white);"></i>
+                    </div>
+                    <div class="cleaning-task-info">
+                        <div class="cleaning-task-room">房间 202 · 标准双床房</div>
+                        <div class="cleaning-task-staff">清洁人员：赵六</div>
+                        <div class="cleaning-task-time">完成时间：13:30</div>
+                    </div>
+                </div>
+                <div class="cleaning-task-card completed">
+                    <div class="cleaning-task-checkbox checked">
+                        <i class="bi bi-check" style="font-size: 0.875rem; color: var(--neutral-white);"></i>
+                    </div>
+                    <div class="cleaning-task-info">
+                        <div class="cleaning-task-room">房间 203 · 行政套房</div>
+                        <div class="cleaning-task-staff">清洁人员：孙七</div>
+                        <div class="cleaning-task-time">完成时间：12:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 报修处理 -->
+            <div class="tab-pane fade" id="maintenance" role="tabpanel">
+                <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">报修处理</h5>
+                <div class="cleaning-task-card" style="border-color: var(--accent-warning);">
+                    <div class="cleaning-task-info">
+                        <div class="cleaning-task-room">房间 204 · 豪华大床房</div>
+                        <div class="cleaning-task-staff">报修类型：空调故障</div>
+                        <div class="cleaning-task-time">报修时间：2025-01-15 10:30</div>
+                        <div class="mt-2">
+                            <span class="room-status-badge maintenance">待处理</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm">标记已处理</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

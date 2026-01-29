@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Ins 风格样式 -->
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body class="auth-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="auth-card">
+                    <div class="card-header">
+                        <h2>
+                            <i class="bi bi-building"></i> 酒店预订系统
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-center mb-4">用户登录</h4>
+                        
+                        <div id="message-container"></div>
+                        
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="bi bi-person"></i> 用户名 <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" id="username" required autofocus 
+                                       placeholder="请输入用户名">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="bi bi-lock"></i> 密码 <span class="text-danger">*</span>
+                                </label>
+                                <input type="password" class="form-control" id="password" required 
+                                       placeholder="请输入密码">
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right"></i> 登录
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <a href="register.html" class="text-decoration-none">
+                                <i class="bi bi-person-plus"></i> 还没有账号？立即注册
+                            </a>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="index.html" class="text-decoration-none text-muted">
+                                <i class="bi bi-arrow-left"></i> 返回首页
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- API封装 -->
+    <script src="js/api.js"></script>
+    <!-- 通用工具 -->
+    <script src="js/common.js"></script>
+    <script>
+        // 登录表单提交
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // 显示加载状态
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>登录中...';
+            
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+                
+                const response = await fetch('http://localhost:8000/api/auth/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // 保存 token 和用户信息
+                    if (data.access_token) {
+                        localStorage.setItem('access_token', data.access_token);
+                    }
+                    if (data.user) {
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                    }
+                    
+                    Toast.success('登录成功！正在跳转...');
+                    
+                    // 跳转到返回页面或首页
+                    setTimeout(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const returnUrl = urlParams.get('return');
+                        if (returnUrl) {
+                            window.location.href = returnUrl;
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 1000);
+                } else {
+                    Toast.error(data.detail || '登录失败');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            } catch (error) {
+                Toast.error('登录失败: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

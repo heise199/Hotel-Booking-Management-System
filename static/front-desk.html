@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前台预订端 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-ins.css">
+    <style>
+        /* 主题切换按钮 */
+        .theme-switcher {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            z-index: 1000;
+            background: var(--neutral-white);
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--neutral-gray);
+        }
+        .theme-switcher button {
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--neutral-gray);
+            background: var(--neutral-white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .theme-switcher button:hover {
+            background: var(--primary-cream);
+        }
+        .theme-switcher button.active {
+            background: var(--primary-warm);
+            color: var(--neutral-white);
+        }
+    </style>
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 前台预订系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="bi bi-arrow-left"></i> 返回首页
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主题切换器 -->
+    <div class="theme-switcher">
+        <small class="d-block mb-2 fw-bold">切换主题</small>
+        <button onclick="switchTheme('boutique')" class="active">轻奢民宿</button>
+        <button onclick="switchTheme('business')">商务酒店</button>
+        <button onclick="switchTheme('resort')">度假酒店</button>
+    </div>
+
+    <!-- 顶部间距 -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 页面标题 -->
+    <div class="container mt-4 mb-4">
+        <h1 class="mb-0" style="font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;">
+            <i class="bi bi-calendar-check"></i> 预订查询
+        </h1>
+        <p class="text-muted mt-2" style="opacity: 0.7;">查看和管理酒店预订信息</p>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row">
+            <!-- 左侧：日历卡片 -->
+            <div class="col-lg-8 mb-4">
+                <div class="calendar-card">
+                    <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">预订日历</h5>
+                    <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">日</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">一</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">二</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">三</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">四</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">五</div>
+                        <div class="text-center fw-bold" style="padding: 0.5rem; color: var(--neutral-black); opacity: 0.6;">六</div>
+                        <!-- 示例日期 -->
+                        <div class="calendar-day available" style="background: var(--accent-success); color: var(--neutral-white);">1</div>
+                        <div class="calendar-day booked" style="background: var(--accent-info); color: var(--neutral-white);">2</div>
+                        <div class="calendar-day booked" style="background: var(--accent-info); color: var(--neutral-white);">3</div>
+                        <div class="calendar-day available" style="background: var(--accent-success); color: var(--neutral-white);">4</div>
+                        <div class="calendar-day available" style="background: var(--accent-success); color: var(--neutral-white);">5</div>
+                        <div class="calendar-day booked" style="background: var(--accent-info); color: var(--neutral-white);">6</div>
+                        <div class="calendar-day booked" style="background: var(--accent-info); color: var(--neutral-white);">7</div>
+                        <!-- 更多日期... -->
+                    </div>
+                </div>
+
+                <!-- 订单列表 -->
+                <div class="mt-4">
+                    <h5 class="mb-4" style="font-weight: 700; letter-spacing: -0.01em;">今日订单</h5>
+                    <div class="booking-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h6 class="mb-1" style="font-weight: 700;">张三</h6>
+                                <p class="mb-0" style="font-size: 0.9rem; opacity: 0.7;">豪华大床房 · 2晚</p>
+                            </div>
+                            <span class="status-badge confirmed" style="background: var(--accent-success); color: var(--neutral-white); padding: 0.5rem 1rem; border-radius: 16px; font-size: 0.8rem; font-weight: 600;">已确认</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small style="opacity: 0.6;">入住：2025-01-15</small><br>
+                                <small style="opacity: 0.6;">离店：2025-01-17</small>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：快速预订卡片 -->
+            <div class="col-lg-4">
+                <div class="quick-booking-card">
+                    <h6 class="mb-3" style="font-weight: 700; letter-spacing: -0.01em;">快速预订</h6>
+                    <form>
+                        <input type="text" class="form-control mb-3" placeholder="客户姓名">
+                        <select class="form-control mb-3">
+                            <option>选择房型</option>
+                            <option>豪华大床房</option>
+                            <option>标准双床房</option>
+                            <option>行政套房</option>
+                        </select>
+                        <input type="date" class="form-control mb-3">
+                        <input type="number" class="form-control mb-3" placeholder="入住天数" min="1">
+                        <button type="submit" class="btn btn-primary w-100">确认预订</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 主题切换工具 -->
+    <script src="js/theme-switcher.js"></script>
+    <script>
+        // 使用主题切换工具初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            const switcher = document.querySelector('.theme-switcher');
+            if (switcher) {
+                // 更新按钮状态
+                const updateButtons = () => {
+                    const currentTheme = ThemeSwitcher.getCurrentTheme();
+                    switcher.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active');
+                        if (btn.textContent.includes(ThemeSwitcher.themes[currentTheme].name)) {
+                            btn.classList.add('active');
+                        }
+                    });
+                };
+                
+                // 监听主题切换事件
+                document.addEventListener('themeChanged', updateButtons);
+                updateButtons();
+                
+                // 绑定点击事件
+                switcher.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const themeMap = {
+                            '轻奢民宿': 'boutique',
+                            '商务酒店': 'business',
+                            '度假酒店': 'resort'
+                        };
+                        const themeName = themeMap[this.textContent.trim().split('\n')[0]];
+                        if (themeName) {
+                            ThemeSwitcher.switchTheme(themeName);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

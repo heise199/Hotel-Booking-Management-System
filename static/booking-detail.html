@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预订详情 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Ins 风格样式 -->
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 酒店预订系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="profile.html">
+                    <i class="bi bi-arrow-left"></i> 返回个人中心
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 顶部间距 -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 预订详情内容 -->
+    <div id="booking-detail" class="container mt-4 mb-5">
+        <div class="text-center loading-spinner">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">加载中...</span>
+            </div>
+            <p class="mt-3 text-muted">正在加载预订详情...</p>
+        </div>
+    </div>
+
+    <!-- 取消预订确认模态框 -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">
+                        <i class="bi bi-exclamation-triangle text-warning"></i> 确认取消预订
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+                </div>
+                <div class="modal-body">
+                    <p>确定要取消此预订吗？取消后可能无法恢复。</p>
+                    <div class="mb-3">
+                        <label class="form-label">取消原因（可选）</label>
+                        <textarea class="form-control" id="cancel-reason" rows="3" placeholder="请说明取消原因..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> 不取消
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="confirmCancel()">
+                        <i class="bi bi-check-circle"></i> 确认取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- API封装 -->
+    <script src="js/api.js"></script>
+    <!-- 通用工具 -->
+    <script src="js/common.js"></script>
+    <!-- 页面逻辑 -->
+    <script src="js/booking-detail.js"></script>
+</body>
+</html>

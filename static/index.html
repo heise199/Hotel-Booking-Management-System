@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线酒店预订系统 - 首页</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Ins 风格样式 -->
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 酒店预订系统
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切换导航">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <i class="bi bi-house-door"></i> 首页
+                        </a>
+                    </li>
+                    <li class="nav-item" id="user-menu" style="display: none;">
+                        <a class="nav-link" href="profile.html">
+                            <i class="bi bi-person-circle"></i> 个人中心
+                        </a>
+                    </li>
+                    <li class="nav-item" id="admin-menu" style="display: none;">
+                        <a class="nav-link" href="admin.html">
+                            <i class="bi bi-speedometer2"></i> 管理后台
+                        </a>
+                    </li>
+                    <li class="nav-item" id="login-menu">
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right"></i> 登录
+                        </a>
+                    </li>
+                    <li class="nav-item" id="logout-menu" style="display: none;">
+                        <a class="nav-link" href="#" onclick="handleLogout(); return false;">
+                            <i class="bi bi-box-arrow-right"></i> 登出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 顶部间距（为固定导航栏留出空间） -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 搜索区域 -->
+    <div class="search-section text-white">
+        <div class="container">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-search"></i> 找到您理想的酒店
+            </h2>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="bi bi-building text-primary"></i>
+                        </span>
+                        <input type="text" class="form-control" id="search-name" placeholder="搜索酒店名称或地址...">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="bi bi-currency-yen text-primary"></i>
+                        </span>
+                        <input type="number" class="form-control" id="search-min-price" placeholder="最低价格" min="0">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white">
+                            <i class="bi bi-currency-yen text-primary"></i>
+                        </span>
+                        <input type="number" class="form-control" id="search-max-price" placeholder="最高价格" min="0">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" id="search-tag">
+                        <option value="">全部标签</option>
+                        <option value="亲子">亲子</option>
+                        <option value="商务">商务</option>
+                        <option value="海景">海景</option>
+                        <option value="度假">度假</option>
+                        <option value="温泉">温泉</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-light w-100" onclick="searchHotels()">
+                        <i class="bi bi-search"></i> 搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 筛选区域 -->
+    <div class="container mb-4">
+        <div class="filter-section">
+            <div class="filter-group">
+                <span class="filter-label">
+                    <i class="bi bi-funnel"></i> 筛选条件：
+                </span>
+                <div class="filter-tags" id="filter-tags">
+                    <span class="filter-tag" data-filter="price" data-value="0-200">
+                        <i class="bi bi-currency-yen"></i> 200元以下
+                    </span>
+                    <span class="filter-tag" data-filter="price" data-value="200-500">
+                        <i class="bi bi-currency-yen"></i> 200-500元
+                    </span>
+                    <span class="filter-tag" data-filter="price" data-value="500-1000">
+                        <i class="bi bi-currency-yen"></i> 500-1000元
+                    </span>
+                    <span class="filter-tag" data-filter="price" data-value="1000+">
+                        <i class="bi bi-currency-yen"></i> 1000元以上
+                    </span>
+                    <span class="filter-tag" data-filter="rating" data-value="4.5+">
+                        <i class="bi bi-star-fill"></i> 4.5分以上
+                    </span>
+                    <span class="filter-tag" data-filter="rating" data-value="4.0+">
+                        <i class="bi bi-star-fill"></i> 4.0分以上
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 酒店列表 -->
+    <div class="container mb-5">
+        <div class="row" id="hotel-list">
+            <div class="col-12 text-center loading-spinner">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                </div>
+                <p class="mt-3 text-muted">正在加载酒店信息...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 在线酒店预订系统. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- API封装 -->
+    <script src="js/api.js"></script>
+    <!-- 通用工具 -->
+    <script src="js/common.js"></script>
+    <!-- 页面逻辑 -->
+    <script src="js/index.js"></script>
+</body>
+</html>

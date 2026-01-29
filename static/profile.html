@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hotel-theme="boutique">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 在线酒店预订系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Ins 风格样式 -->
+    <link rel="stylesheet" href="css/styles-ins.css">
+</head>
+<body>
+    <!-- 固定导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-building"></i> 酒店预订系统
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="bi bi-arrow-left"></i> 返回首页
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 顶部间距 -->
+    <div style="height: 76px;"></div>
+
+    <!-- 消息提示容器 -->
+    <div id="message-container" class="container mt-3"></div>
+
+    <!-- 个人中心头部 -->
+    <div class="profile-header">
+        <div class="container">
+            <h1>
+                <i class="bi bi-person-circle"></i> 个人中心
+            </h1>
+            <p class="lead">管理您的预订和收藏</p>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <!-- 标签页导航 -->
+        <ul class="nav nav-pills mb-4" id="profile-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="bookings-tab" data-bs-toggle="pill" data-bs-target="#bookings" type="button" role="tab">
+                    <i class="bi bi-calendar-check"></i> 我的预订
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="favorites-tab" data-bs-toggle="pill" data-bs-target="#favorites" type="button" role="tab">
+                    <i class="bi bi-heart"></i> 我的收藏
+                </button>
+            </li>
+        </ul>
+
+        <!-- 标签页内容 -->
+        <div class="tab-content" id="profile-tab-content">
+            <!-- 预订列表 -->
+            <div class="tab-pane fade show active" id="bookings" role="tabpanel">
+                <div id="bookings-list">
+                    <div class="text-center loading-spinner">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <p class="mt-3 text-muted">正在加载预订信息...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 收藏列表 -->
+            <div class="tab-pane fade" id="favorites" role="tabpanel">
+                <div id="favorites-list">
+                    <div class="text-center loading-spinner">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <p class="mt-3 text-muted">正在加载收藏信息...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 在线酒店预订系统. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- API封装 -->
+    <script src="js/api.js"></script>
+    <!-- 通用工具 -->
+    <script src="js/common.js"></script>
+    <!-- 页面逻辑 -->
+    <script src="js/profile.js"></script>
+</body>
+</html>
